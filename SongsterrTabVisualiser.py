@@ -16,6 +16,7 @@ def SongsterrTabVisualiser():
     """ Main entry point of the app """
 
     root = Tk()
+    root.geometry("300x600")
 
     UI(root)
 
