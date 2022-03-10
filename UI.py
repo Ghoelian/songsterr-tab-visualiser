@@ -54,16 +54,24 @@ class UI:
         resultScrollbar.config(command=self.resultList.yview)
 
         self.master.bind("<Return>", self.search)
+        self.resultList.bind("<Double-1>", self.playTab)
 
         queryEntry.focus()
 
     def search(self, *args):
         self.resultList.delete(0, END)
 
-        songs = self.api.getSongs(self.query.get())
+        self.songs = self.api.getSongs(self.query.get())
         index = 0
 
-        for song in songs:
-            self.resultList.insert(index, song["title"])
+        for song in self.songs:
+            self.resultList.insert(
+                index, song["title"] + " by " + song["artist"]["name"])
 
             index += 1
+
+    def playTab(self, *args):
+        if(self.resultList.size() > 0):
+            song = self.songs[self.resultList.curselection()[0]]
+
+            print(self.api.getTab(song))
